@@ -5,7 +5,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 <body>
-<h1>User List</h1>
+<h1>User List: <%= appName %></h1>
 
 <table>
     <thead>
@@ -19,7 +19,7 @@
     <tbody>
     <% users.forEach(function(user, index){ -%>
         <tr>
-            <td><%= user.firstName %></td>
+            <td><a href="show/<%= user._id%> "><%= user.firstName %></a></td>
             <td><%= user.lastName %></td>
             <td><%= user.email %></td>
         </tr>
