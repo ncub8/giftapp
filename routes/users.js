@@ -22,8 +22,7 @@ router.param('id', function(req, res, next, id) {
 });
 
 router.get('/show/:id', function(req, res, next) {
-
-        if(req.xhr){
+        if(req.isJSON){
             User.appName = req.app.locals.appName;
             res.json(req.user);
         } else {
@@ -39,11 +38,14 @@ router.get('/show', function(req, res, next) {
     var collection = db.get('users');
     collection.find({}, {}, function(err,docs){
         if(!err){
-            //res.json(docs);
-            res.render('users/show', {
-                users: docs,
-                appName: req.app.locals.appName
-            });
+            if(req.isJSON){
+                res.send(docs);
+            } else {
+                res.render('users/show', {
+                    users: docs,
+                    appName: req.app.locals.appName
+                });
+            }
         }else{
             res.send('error');
         }
