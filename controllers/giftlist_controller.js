@@ -1,9 +1,17 @@
 exports.index = function(req, res){
-    if(req.params.format == "json" || req.isJSON){
-        res.json({"title":"giftlist index"})
-    }else{
-        res.send('<h1>giftlist index</h1>');
-    }
+
+        var db = req.db;
+        var collection = db.get('giftlist');
+
+        collection.find({'owner_id':'566dd0cb1c09d090fd36ba83'}, {}, function(err,giftlists){
+            if(err){
+                res.send(err);
+            }else if(giftlists){
+                res.json(giftlists);
+
+            };
+        });
+
 
 };
 

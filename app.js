@@ -11,10 +11,11 @@ var controllers = path.resolve('./controllers');
 //Database stuff
 var mongodb = require('mongodb');
 var monk = require('monk');
-var db = monk('localhost:27017/giftapp')
+var db = monk('localhost:27017/giftapp');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var dashboard = require('./routes/dashboard');
 
 var app = express();
 
@@ -35,7 +36,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(isJSON);
 
-//Database middlewear
+//Database middleware
 app.use(function(req,res,next){
     req.db = db;
     next();
@@ -43,6 +44,7 @@ app.use(function(req,res,next){
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/dash', dashboard);
 
 routing.resources(app, controllers, "giftlist");
 routing.expose_routing_table(app, { at: "/my-routes" });
