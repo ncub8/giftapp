@@ -7,11 +7,16 @@ var bodyParser = require('body-parser');
 var isJSON = require('./utils/json');
 var routing = require('resource-routing');
 var controllers = path.resolve('./controllers');
+var helmet = require('helmet');
+var csrf = require('csurf');
 
 //Database stuff
 var mongodb = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/giftapp');
+
+var mongoose = require('mongoose');
+mongoose.connect('localhost:27017/giftapp');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -36,15 +41,33 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(isJSON);
 
+var flash = require('connect-flash');
+app.use(flash());
+
+var passport = require('passport');
+var expressSession = require('express-session');
+app.use(expressSession({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+var initializePassport = require('./passport/init');
+initializePassport(passport);
+
 //Database middleware
 app.use(function(req,res,next){
     req.db = db;
     next();
 });
 
+app.use(helmet());
+app.use(csrf());
+
 app.use('/', routes);
 app.use('/users', users);
 app.use('/dash', dashboard);
+
+var login = require('./routes/login')(passport);
+app.use('/login', login);
 
 routing.resources(app, controllers, "giftlist");
 routing.expose_routing_table(app, { at: "/my-routes" });
