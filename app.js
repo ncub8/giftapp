@@ -21,6 +21,7 @@ mongoose.connect('localhost:27017/giftapp');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var dashboard = require('./routes/dashboard');
+var auth = require('./routes/auth')
 
 var app = express();
 
@@ -65,6 +66,8 @@ app.use(csrf());
 app.use('/', routes);
 app.use('/users', users);
 app.use('/dash', dashboard);
+app.use('/auth', auth);
+
 
 var login = require('./routes/login')(passport);
 app.use('/login', login);

@@ -34,5 +34,11 @@ module.exports = function(passport){
         res.redirect('/login');
     });
 
+    router.get('/facebook', passport.authenticate('facebook'));
+
+    router.get('/FBcallback',
+        passport.authenticate('facebook', { successRedirect: '/dash',
+            failureRedirect: '/login' }));
+
     return router;
 }
