@@ -17,6 +17,7 @@ angular.module('giftapp', ['ui.router', 'giftappControllers' ])
                     .state('add', {
                         url:'/add',
                         templateUrl: '/templates/dash-add.tpl.html',
+                        controller: 'GiftappFormController'
 
                     });
 

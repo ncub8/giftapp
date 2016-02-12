@@ -34,11 +34,20 @@ module.exports = function(passport){
         res.redirect('/login');
     });
 
-    router.get('/facebook', passport.authenticate('facebook'));
+    router.get('/facebook', passport.authenticate('facebook', {scope:['email']}));
 
     router.get('/FBcallback',
         passport.authenticate('facebook', { successRedirect: '/dash',
             failureRedirect: '/login' }));
+
+    router.get('/twitter', passport.authenticate('twitter'));
+
+    // handle the callback after twitter has authenticated the user
+    router.get('/twitterCallback',
+        passport.authenticate('twitter', {
+            successRedirect : '/dash',
+            failureRedirect : '/login'
+        }));
 
     return router;
 }
