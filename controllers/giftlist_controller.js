@@ -14,56 +14,38 @@ exports.index = function(req, res){
 
 };
 
-exports.new = function(req, res){
 
-        if(req.params.format == "json" || req.isJSON){
-            res.json({"title":"new giftlist"})
-        }else{
-            res.send('<h1>new giftlist</h1>');
-        }
-
-
-
-};
 
 exports.create = function(req, res){
     var newGiftlist = new Giftlist();
     newGiftlist.name = req.body.name;
+    newGiftlist.user_id = req.user._id;
 
     var gifts = [];
     req.body.items.forEach(function(item){
         gifts.push({name:item});
-    })
+    });
     newGiftlist.gifts = gifts;
 
-    //TODO: finish this.
     newGiftlist.save(function(err){
         if(err){
-
+            throw err
         } else {
-
+            res.json(newGiftlist);
         }
     });
-
-        if(req.params.format == "json" || req.isJSON){
-            res.json({"title":"create giftlist"})
-        }else{
-            res.send('<h1>create giftlist</h1>');
-        }
-
-
 
 };
 
 exports.show = function(req, res){
-
+    console.log(req.params.id);
+    Giftlist.findOne({'_id':req.params.id}, function(err, list){
         if(req.params.format == "json" || req.isJSON){
-            res.json({ "title":"show giftlist", "giftlist":req.params.id })
+            res.json(list);
         }else{
-            res.send('<h1>show giftlist' + req.params.id + '</h1>');
+            res.render('giftlist/show',{giftlist:list});
         }
-
-
+    });
 
 };
 
@@ -97,6 +79,18 @@ exports.destroy = function(req, res){
         }else{
             res.send('<h1>delete giftlist' + req.params.id + '</h1>');
         }
+
+
+
+};
+
+exports.new = function(req, res){
+
+    if(req.params.format == "json" || req.isJSON){
+        res.json({"title":"new giftlist"})
+    }else{
+        res.send('<h1>new giftlist</h1>');
+    }
 
 
 

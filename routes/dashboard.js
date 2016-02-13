@@ -13,7 +13,7 @@ router.get('/', isAuthenticated, function(req, res, next) {
             res.send(err);
         }else {
             giftlists = giftlists || [];
-            res.render('dash/dashboard', {user: req.user, giftlists: giftlists});
+            res.render('dash/dashboard', {user: req.user, giftlists: giftlists, csrfToken: req.csrfToken()});
         }
     });
 });

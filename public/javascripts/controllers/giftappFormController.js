@@ -1,30 +1,17 @@
 angular.module('giftappControllers')
-    .controller('GiftappFormController', ['$scope','$http', function($scope,$http) {
+    .controller('GiftappFormController', ['$scope','List','csrfToken', '$state', function($scope, List, csrfToken, $state) {
         $scope.formData = {};
         $scope.formData.items = [];
+        $scope.formData._csrf = csrfToken;
 
 
         $scope.create = function() {
             console.log("create");
-            $http({
-                method  : 'POST',
-                url     : '/giftlist',
-                data    : $.param($scope.formData),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            })
-                .success(function(data) {
-                    console.log(data);
+            var myList = new List($scope.formData);
+            myList.$save(function(giftList){
+                console.log(giftList);
+                $state.go('dash');
+            });
 
-                    if (!data.success) {
-                        // if not successful, bind errors to error variables
-                        $scope.errorName = data.errors.name;
-
-                    } else {
-                        // if successful, bind success message to message
-                        $scope.message = data.message;
-                    }
-                });
-        };
-
-
+        }
     }]);

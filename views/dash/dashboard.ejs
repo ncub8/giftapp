@@ -35,5 +35,9 @@
 <script src="/javascripts/controllers/dashMainController.js"></script>
 <script src="/javascripts/controllers/giftappFormController.js"></script>
 <script src="/javascripts/services/giftlistFactory.js"></script>
+<script>
+    angular.module("csrfValue", [])
+            .value("csrfToken","<%= csrfToken %>");
+</script>
 </body>
 </html>
