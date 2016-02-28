@@ -9,14 +9,16 @@ var routing = require('resource-routing');
 var controllers = path.resolve('./controllers');
 var helmet = require('helmet');
 var csrf = require('csurf');
+var appconfig = require('./appconfig');
+var config = appconfig();
 
 //Database stuff
 var mongodb = require('mongodb');
 var monk = require('monk');
-var db = monk('localhost:27017/giftapp');
+var db = monk(config.db);
 
 var mongoose = require('mongoose');
-mongoose.connect('localhost:27017/giftapp');
+mongoose.connect(config.db);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

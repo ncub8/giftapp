@@ -1,6 +1,7 @@
 var TwitterStrategy = require('passport-twitter').Strategy;
 var User = require('../models/user');
-var auth = require('../config/authorization');
+var appconfig = require('../appconfig')
+var auth = appconfig();
 
 module.exports = function(passport){
 

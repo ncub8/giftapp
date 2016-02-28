@@ -7,6 +7,7 @@ module.exports = function(grunt) {
             main: {
                 files: [
                     {expand: true, src: ['*'], dest: 'dist/', filter: 'isFile'},
+                    {expand: true, src: ['bin/**'], dest: 'dist/', filter: 'isFile'},
                     {expand: true, src: ['config/**'], dest: 'dist/', filter: 'isFile'},
                     {expand: true, src: ['models/**'], dest: 'dist/', filter: 'isFile'},
                     {expand: true, src: ['passport/**'], dest: 'dist/', filter: 'isFile'},
@@ -30,6 +31,18 @@ module.exports = function(grunt) {
                     'dist/public/javascripts/services/giftlistFactory.js': ['dist/public/javascripts/services/giftlistFactory.js']
                 }
             }
+        },
+        htmlmin:{
+            options: {
+                removeComments: true,
+                colapseWhitespace: true
+            },
+            dist: {
+                files: {
+                    'dist/public/templates/dash-add.tpl.html': 'dist/public/templates/dash-add.tpl.html',
+                    'dist/public/templates/dash-main.tpl.html': 'dist/public/templates/dash-main.tpl.html'
+                }
+            }
         }
 
     });
@@ -41,6 +54,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
 
     //register the default task
-    grunt.registerTask('default', ['clean','copy','uglify']);
+    grunt.registerTask('default', ['clean','copy','uglify','htmlmin']);
 
 };
