@@ -1,4 +1,6 @@
 node_modules
 config
 .idea
+dist
+dist/config
 .DS_Store
